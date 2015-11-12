@@ -26,6 +26,8 @@ public class Layout extends JFrame{
 	//botones de opciones
 	JPanel buttonContainer;
 	JButton addMedicine;
+	JButton addMedicineElements;
+	JButton removeMedicineElements;
 	
 	public Layout(){
 		
@@ -42,7 +44,13 @@ public class Layout extends JFrame{
         //se crea el panel de botones
         buttonContainer = new JPanel(new MigLayout());
         addMedicine = new JButton("Agregar Medicamento");
+        addMedicineElements = new JButton("Modificar existencia de Medicamento");
+        removeMedicineElements = new JButton("Registrar Salida de Medicamento");
+        
         buttonContainer.add(addMedicine);
+        buttonContainer.add(addMedicineElements);
+        buttonContainer.add(removeMedicineElements);
+        
         
         //evento en el boton de agregar
         addMedicine.addActionListener(new ActionListener(){
