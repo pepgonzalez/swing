@@ -14,6 +14,13 @@ public class InvTableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<String[]> rows;
+	
+	String[] columnNames = {"ID", "Nombre", "Cantidad", "Precio", "Caducidad"};
+
+	@Override
+	public String getColumnName(int index) {
+	    return columnNames[index];
+	}
 
     public InvTableModel() {
         rows = new ArrayList<String[]>();
