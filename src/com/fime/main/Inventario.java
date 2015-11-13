@@ -18,8 +18,14 @@ public class Inventario {
 		
 		System.out.println("Hola Mundo");
 		
-		Layout screen = new Layout();
-		screen.setVisible(true);
+		Layout screen;
+		try {
+			screen = new Layout();
+			screen.setVisible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

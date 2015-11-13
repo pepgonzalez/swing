@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import com.fime.db.DBManager;
 import com.fime.dto.Medicine;
 
 public class InvTableModel extends AbstractTableModel {
@@ -57,9 +58,64 @@ public class InvTableModel extends AbstractTableModel {
         row[2] = medicine.getTotal().toString();
         row[3] = medicine.getPrice().toString();
         row[4] = medicine.getExpiration();
-        
-        
+                
         rows.add(row);
         fireTableRowsInserted(rowCount, rowCount);
-    }            
+    }   
+    
+    public void reloadModel(){
+    	rows.clear();
+    	int rowCount = getRowCount();
+    	fireTableRowsInserted(rowCount, rowCount);
+    	
+    	DBManager db = new DBManager();
+    	
+    	try {
+    		List<Medicine> medicineList = db.getMedicineList();
+			for(Medicine medicine : medicineList){
+				
+				String[] row = new String[getColumnCount()];
+		        
+		        row[0] = medicine.getId().toString();
+		        row[1] = medicine.getName();
+		        row[2] = medicine.getTotal().toString();
+		        row[3] = medicine.getPrice().toString();
+		        row[4] = medicine.getExpiration();
+		                
+		        rows.add(row);
+		        fireTableRowsInserted(rowCount, rowCount);
+			}
+		} catch (Exception e) {
+			System.out.println("Error al recargar el listado de medicamentos");
+			e.printStackTrace();
+		}
+    }
+    
+    public void reloadModel(String filter){
+    	rows.clear();
+    	int rowCount = getRowCount();
+    	fireTableRowsInserted(rowCount, rowCount);
+    	
+    	DBManager db = new DBManager();
+    	
+    	try {
+    		List<Medicine> medicineList = db.getFilteredMedicineList(filter);
+			for(Medicine medicine : medicineList){
+				
+				String[] row = new String[getColumnCount()];
+		        
+		        row[0] = medicine.getId().toString();
+		        row[1] = medicine.getName();
+		        row[2] = medicine.getTotal().toString();
+		        row[3] = medicine.getPrice().toString();
+		        row[4] = medicine.getExpiration();
+		                
+		        rows.add(row);
+		        fireTableRowsInserted(rowCount, rowCount);
+			}
+		} catch (Exception e) {
+			System.out.println("Error al recargar el listado de medicamentos");
+			e.printStackTrace();
+		}
+    }
 }
