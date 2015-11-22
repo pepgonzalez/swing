@@ -7,6 +7,23 @@ public class Medicine {
 	private Integer total;
 	private Float price;
 	private String expiration;
+	private Integer altas;
+	public Integer getAltas() {
+		return altas;
+	}
+
+	public void setAltas(Integer altas) {
+		this.altas = altas;
+	}
+
+	public Integer getBajas() {
+		return bajas;
+	}
+
+	public void setBajas(Integer bajas) {
+		this.bajas = bajas;
+	}
+	private Integer bajas;
 	
 	public Medicine(){
 		

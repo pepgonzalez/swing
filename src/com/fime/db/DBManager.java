@@ -38,7 +38,7 @@ public DBManager(){
 	
 	private void createTable()throws Exception{
 		StringBuilder q = new StringBuilder();
-		q.append("CREATE TABLE \"main\".\"INVENTARIO\" (\"ID\" INTEGER PRIMARY KEY  NOT NULL , \"NOMBRE\" VARCHAR NOT NULL , \"CANTIDAD\" INTEGER NOT NULL , \"PRECIO\" FLOAT NOT NULL , \"CADUCIDAD\" VARCHAR NOT NULL );");
+		q.append("CREATE TABLE \"main\".\"INVENTARIO\" (\"ID\" INTEGER PRIMARY KEY  NOT NULL , \"NOMBRE\" VARCHAR NOT NULL , \"CANTIDAD\" INTEGER NOT NULL , \"PRECIO\" FLOAT NOT NULL , \"CADUCIDAD\" VARCHAR NOT NULL, \"ALTAS\" INTEGER NOT NULL, \"BAJAS\" INTEGER NOT NULL );");
 		
 		Connection connection = this.getConnection();
 		Statement query = connection.createStatement();
@@ -82,6 +82,8 @@ public DBManager(){
 	    	medicine.setTotal(result.getInt("CANTIDAD"));
 	    	medicine.setPrice(result.getFloat("PRECIO"));
 	    	medicine.setExpiration(result.getString("CADUCIDAD"));
+	    	medicine.setAltas(result.getInt("ALTAS"));
+	    	medicine.setBajas(result.getInt("BAJAS"));
 	    	medicineList.add(medicine);
 	    }
 	    result.close();
@@ -105,6 +107,8 @@ public DBManager(){
 	    	medicine.setTotal(result.getInt("CANTIDAD"));
 	    	medicine.setPrice(result.getFloat("PRECIO"));
 	    	medicine.setExpiration(result.getString("CADUCIDAD"));
+	    	medicine.setAltas(result.getInt("ALTAS"));
+	    	medicine.setBajas(result.getInt("BAJAS"));
 	    	medicineList.add(medicine);
 	    }
 	    result.close();
@@ -149,12 +153,13 @@ public DBManager(){
 	public void insertMedicine(Medicine medicine) throws Exception{
 		
 		StringBuilder q = new StringBuilder();
-		q.append("INSERT INTO INVENTARIO(ID,NOMBRE,CANTIDAD,PRECIO,CADUCIDAD) VALUES(");
+		q.append("INSERT INTO INVENTARIO(ID,NOMBRE,CANTIDAD,PRECIO,CADUCIDAD,ALTAS,BAJAS) VALUES(");
 		q.append(this.getNextId());
 		q.append(",'").append(medicine.getName().toUpperCase()).append("',");
 		q.append(medicine.getTotal()).append(",");
 		q.append(medicine.getPrice()).append(",");
-		q.append("'").append(medicine.getExpiration()).append("');");
+		q.append("'").append(medicine.getExpiration()).append("',");
+		q.append(0).append(",").append(0).append(");");
 		
 		Connection connection = this.getConnection();
 		Statement query = connection.createStatement();
@@ -184,5 +189,85 @@ public DBManager(){
 	    query.close();
 	    connection.close();	
 	}
+	
+	public Integer getUpMovements(String medicineName)throws Exception{
+		Integer total = 0;
+		Connection connection = this.getConnection();
+		Statement query = connection.createStatement();
+		ResultSet result = query.executeQuery( "SELECT ALTAS FROM INVENTARIO WHERE NOMBRE = '" + medicineName + "';" );
 
+	    while ( result.next() ) {
+	    	total = result.getInt("ALTAS");
+	    }
+	    result.close();
+	    query.close();
+	    connection.close();
+	    
+	    return total;
+	}
+	
+	public void updateUpMovements(String medicine, Integer total) throws Exception{
+		StringBuilder q = new StringBuilder();
+		
+		q.append("UPDATE INVENTARIO SET ALTAS = ");
+		q.append(total);
+		q.append(" WHERE NOMBRE = '").append(medicine).append("';");
+		
+		Connection connection = this.getConnection();
+		Statement query = connection.createStatement();
+	
+		System.out.println(q.toString());
+
+		query.executeUpdate(q.toString());
+		
+	    query.close();
+	    connection.close();	
+	}
+	
+	public void addUpMovement(String medicine) throws Exception{
+		int actual = this.getUpMovements(medicine);
+		this.updateUpMovements(medicine, actual + 1);
+	}
+
+	
+	public Integer getDownMovements(String medicineName)throws Exception{
+		Integer total = 0;
+		Connection connection = this.getConnection();
+		Statement query = connection.createStatement();
+		ResultSet result = query.executeQuery( "SELECT BAJAS FROM INVENTARIO WHERE NOMBRE = '" + medicineName + "';" );
+
+	    while ( result.next() ) {
+	    	total = result.getInt("BAJAS");
+	    }
+	    result.close();
+	    query.close();
+	    connection.close();
+	    
+	    return total;
+	}
+	
+	public void updateDownMovements(String medicine, Integer total) throws Exception{
+		StringBuilder q = new StringBuilder();
+		
+		q.append("UPDATE INVENTARIO SET BAJAS = ");
+		q.append(total);
+		q.append(" WHERE NOMBRE = '").append(medicine).append("';");
+		
+		Connection connection = this.getConnection();
+		Statement query = connection.createStatement();
+	
+		System.out.println(q.toString());
+
+		query.executeUpdate(q.toString());
+		
+	    query.close();
+	    connection.close();	
+	}
+	
+	public void addDownMovement(String medicine) throws Exception{
+		int actual = this.getDownMovements(medicine);
+		this.updateDownMovements(medicine, actual + 1);
+	}
+
+	
 }

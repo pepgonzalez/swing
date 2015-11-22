@@ -16,7 +16,7 @@ public class InvTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private List<String[]> rows;
 	
-	String[] columnNames = {"ID", "Nombre", "Cantidad", "Precio", "Caducidad"};
+	String[] columnNames = {"ID", "Nombre", "Cantidad", "Precio", "Caducidad", "Altas", "Bajas"};
 
 	@Override
 	public String getColumnName(int index) {
@@ -34,7 +34,7 @@ public class InvTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 7;
     }
 
     @Override
@@ -58,6 +58,8 @@ public class InvTableModel extends AbstractTableModel {
         row[2] = medicine.getTotal().toString();
         row[3] = medicine.getPrice().toString();
         row[4] = medicine.getExpiration();
+        row[5] = medicine.getAltas().toString();
+        row[6] = medicine.getBajas().toString();
                 
         rows.add(row);
         fireTableRowsInserted(rowCount, rowCount);
@@ -81,6 +83,8 @@ public class InvTableModel extends AbstractTableModel {
 		        row[2] = medicine.getTotal().toString();
 		        row[3] = medicine.getPrice().toString();
 		        row[4] = medicine.getExpiration();
+		        row[5] = medicine.getAltas().toString();
+		        row[6] = medicine.getBajas().toString();
 		                
 		        rows.add(row);
 		        fireTableRowsInserted(rowCount, rowCount);
@@ -109,6 +113,8 @@ public class InvTableModel extends AbstractTableModel {
 		        row[2] = medicine.getTotal().toString();
 		        row[3] = medicine.getPrice().toString();
 		        row[4] = medicine.getExpiration();
+		        row[5] = medicine.getAltas().toString();
+		        row[6] = medicine.getBajas().toString();
 		                
 		        rows.add(row);
 		        fireTableRowsInserted(rowCount, rowCount);

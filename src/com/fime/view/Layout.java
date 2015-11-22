@@ -294,6 +294,7 @@ public class Layout extends JFrame{
 									"Error de captura de información",JOptionPane.ERROR_MESSAGE);
 						}else{
 							db.updateMedicineTotal(selectedMedicine, currentTotal - Integer.parseInt(total));
+							db.addDownMovement(selectedMedicine);
 							JOptionPane.showMessageDialog(innerFrame,
 									"Información de Medicamento: " + selectedMedicine + " actualizada.",
 									"Operación exitosa",JOptionPane.WARNING_MESSAGE);
@@ -343,6 +344,7 @@ public class Layout extends JFrame{
           	  		try {
 						Integer currentTotal = db.getAvailableMedicine(selectedMedicine);
 						db.updateMedicineTotal(selectedMedicine, currentTotal + Integer.parseInt(total));
+						db.addUpMovement(selectedMedicine);
 						JOptionPane.showMessageDialog(innerFrame,
 									"Información de Medicamento: " + selectedMedicine + " actualizada.",
 									"Operación exitosa",JOptionPane.WARNING_MESSAGE);
