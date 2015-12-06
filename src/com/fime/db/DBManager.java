@@ -17,6 +17,11 @@ public DBManager(){
 			Class.forName("org.sqlite.JDBC");
 			Connection c= DriverManager.getConnection("jdbc:sqlite:inventario.db");
 			
+			//TODO
+			/*
+				Cambiar postgess por mysql. Ambiente CAP
+			*/
+			
 			String table = this.existTable();
 			System.out.println("tabla obtenida: " + table);
 			if (table == null || table.length() <= 0){
